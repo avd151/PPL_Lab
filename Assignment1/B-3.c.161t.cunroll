@@ -1,0 +1,35 @@
+
+;; Function main (main, funcdef_no=12, decl_uid=3089, cgraph_uid=13, symbol_order=12) (executed once)
+
+main ()
+{
+  int b;
+  int a;
+  unsigned int ivtmp_1;
+  unsigned int ivtmp_2;
+
+  <bb 2> [local count: 11059540]:
+
+  <bb 3> [local count: 1062682284]:
+  # a_12 = PHI <4(2), a_8(5)>
+  # b_13 = PHI <b_3(D)(2), b_7(5)>
+  # ivtmp_2 = PHI <96(2), ivtmp_1(5)>
+  b_7 = b_13 * 2;
+  a_8 = a_12 + 1;
+  ivtmp_1 = ivtmp_2 - 1;
+  if (ivtmp_1 != 0)
+    goto <bb 5>; [98.96%]
+  else
+    goto <bb 4>; [1.04%]
+
+  <bb 5> [local count: 1051622743]:
+  goto <bb 3>; [100.00%]
+
+  <bb 4> [local count: 11059541]:
+  # b_6 = PHI <b_7(3)>
+  printf ("%d%d", 100, b_6);
+  return 0;
+
+}
+
+

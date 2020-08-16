@@ -1,0 +1,91 @@
+
+;; Function main (main, funcdef_no=12, decl_uid=3089, cgraph_uid=13, symbol_order=12) (executed once)
+
+;; 2 loops found
+;;
+;; Loop 0
+;;  header 0, latch 1
+;;  depth 0, outer -1
+;;  nodes: 0 1 2 3 4 5
+;;
+;; Loop 1
+;;  header 4, latch 3
+;;  depth 1, outer 0
+;;  nodes: 4 3
+;; 2 succs { 4 }
+;; 3 succs { 4 }
+;; 4 succs { 3 5 }
+;; 5 succs { 1 }
+
+SSA replacement table
+N_i -> { O_1 ... O_j } means that N_i replaces O_1, ..., O_j
+
+b_6 -> { b_2 }
+Incremental SSA update started at block: 4
+Number of blocks in CFG: 6
+Number of blocks to update: 3 ( 50%)
+
+
+
+SSA replacement table
+N_i -> { O_1 ... O_j } means that N_i replaces O_1, ..., O_j
+
+a_9 -> { a_1 }
+Incremental SSA update started at block: 4
+Number of blocks in CFG: 6
+Number of blocks to update: 2 ( 33%)
+
+
+
+Value ranges after VRP:
+
+a_1: int [4, 100]
+b_2: VARYING
+b_3(D): UNDEFINED
+b_6: int [b_2, b_2]
+b_7: VARYING
+a_8: int [5, 100]
+a_9: int [4, 99]  EQUIVALENCES: { a_1 } (1 elements)
+
+
+
+SSA replacement table
+N_i -> { O_1 ... O_j } means that N_i replaces O_1, ..., O_j
+
+a_10 -> { a_1 }
+b_11 -> { b_2 }
+a_12 -> { a_1 }
+b_13 -> { b_2 }
+Incremental SSA update started at block: 6
+Number of blocks in CFG: 8
+Number of blocks to update: 5 ( 62%)
+
+
+Merging blocks 2 and 6
+Removing basic block 3
+Merging blocks 7 and 4
+main ()
+{
+  int b;
+  int a;
+
+  <bb 2> [local count: 11059540]:
+
+  <bb 3> [local count: 1062682284]:
+  # a_12 = PHI <a_8(3), 4(2)>
+  # b_13 = PHI <b_7(3), b_3(D)(2)>
+  b_7 = b_13 * 2;
+  a_8 = a_12 + 1;
+  if (a_8 != 100)
+    goto <bb 3>; [98.96%]
+  else
+    goto <bb 4>; [1.04%]
+
+  <bb 4> [local count: 11059541]:
+  # b_6 = PHI <b_7(3)>
+  printf ("%d%d", 100, b_6);
+  return 0;
+
+}
+
+

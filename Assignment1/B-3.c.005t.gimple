@@ -1,0 +1,29 @@
+main ()
+{
+  int D.3100;
+
+  {
+    int a;
+    int b;
+
+    a = 4;
+    goto <D.3094>;
+    <D.3093>:
+    if (a <= 3) goto <D.3097>; else goto <D.3098>;
+    <D.3097>:
+    b = b + 2;
+    goto <D.3099>;
+    <D.3098>:
+    b = b * 2;
+    <D.3099>:
+    a = a + 1;
+    <D.3094>:
+    if (a <= 99) goto <D.3093>; else goto <D.3095>;
+    <D.3095>:
+    printf ("%d%d", a, b);
+  }
+  D.3100 = 0;
+  return D.3100;
+}
+
+
