@@ -1,0 +1,88 @@
+----------------------------------------------
+A-1 Declarations, Expressions, and Assignments
+----------------------------------------------
+
+Questions
+---------
+
+        1   How  do the  declarations  look in  the  GIMPLE? Specifically,  what
+            happens to multiple  variables declared and initialized  on the same
+            line? What happens to global declaration [int Z]?
+Answer- The gimple file tells us how the program is executed by the compiler.
+The declarations in the program where multiple variables are declared in the same line- in gimple file all variables are declared and initialised on different lines
+In the program we can declare and initialize the variables in the same line. In the gimple file all the variables used in the program are declared first then initialised with values separately.
+There is no  declaration for global  variables; they are used directly.
+            
+
+        2   How are complex  expressions such as [c  = a * b +  25] broken down?
+            Can you  determine a  rule as  to when  temporary variables  will be
+            introduced?
+Answer- c  = a * b +  25 is broken down as-
+        _1 = a * b;
+        c = _1 + 25, here a temporary variable(_1) is generated. 
+The complex expressions involving 2 or more mathematical operations are broken into simple expressions having 1 operation to perform.                                                                                    
+The temporary variables will be generated when the expressions have more than 2 operations to be performed simulteneuosly.
+Any expression containing  more than  one  operation is  broken  up by  introducing temporaries. 
+                  
+      3   How are  floats/doubles represented in  GIMPLE? What happens  when a
+            float/double is assigned to an integer in [Z = r]?
+Answer- Floats/doubles are represented as Scientific notation in  GIMPLE. 
+example- r = 34.5; represented as r = 3.45e+1;
+Here 3.45 is the number(say c) which should lie between 0.5<= c <= 5 and 1 represents order of the number
+r = 3.45e+1 = 3.45 * 10^1 = 34.5
+When a float/double is assigned to an integer, a temporary variable is generated which stores the integral value of double variable and it assigns this value to integer variable in the next step.
+The previous value of z is stored in the z variable itself and new value is assigned to new variable z_0.3
+example- in [Z = r]
+_2 = (int) r;
+Z = _2;                                                                                                         
+Z.0_3 = Z;
+                                                                                                     
+        4   How  are reads/writes  to the  global variable  Z performed?  Why is
+            there a temporary introduced  for the statement [Z = Z  + 1] but not
+            for the statements [q = Z] or [Z = p]?
+Answer- Reading/writing  from/to global  variables  requires  a memory  load  or  store operation. 
+It is done using temporary variables to perform on operation at a time.
+           
+            
+Optional Problem
+----------------
+
+        Try to understand the underlying GIMPLE representation by looking at the
+        RAW dumps:
+
+        Compilation : gcc-4.7.2 -c -fdump-tree-gimple-raw A-1.c
+        View result : vi -O A-1.c A-1.c.*.gimple
+
+-------------------------------------------------------------------
+
+        Compile the following program (file  A-1.c) and observe the GIMPLE dumps
+        and answer  the questions below. If  you manage to finish  all questions
+        quickly try to attempt the optional problem.
+
+        Source file : A-1.c
+        Compilation : gcc-4.7.2 -c -fdump-tree-gimple A-1.c
+        View result : vi -O A-1.c A-1.c.*.gimple
+        Clear dumps : rm -f A-1.c.* A-1.o
+
+Program
+-------
+
+	int Z;
+
+	void main()
+	{
+		int a, b, c;
+		int p = 6;
+		int q;
+		double r;
+
+		a = 10;
+		b = 20;
+		c = a * b + 25;
+		p = 6;
+		q = Z;
+		r = 34.5;
+		Z = r;
+		Z = Z + 1;
+	}
+

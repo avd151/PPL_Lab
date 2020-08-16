@@ -1,0 +1,106 @@
+---------------------------------------------
+A-2 Conditional Jumps and Control Flow Graphs
+---------------------------------------------
+
+      
+Questions
+---------
+
+        1   How have if-blocks  been translated into GIMPLE  statements? Can you
+            differentiate between conditional and unconditional gotos?
+Answer-  If-blocks are broken down  into distinct sections of code with 
+            labels  (named similar  to  temporary  variables). Control  transfer 
+         occurs with unconditional jumps (no conditions) (e.g. "goto X") or conditional jumps
+         (having conditions- if else)(e.g. "if Z then goto X else goto Y").
+
+
+        2   Repeat  the  above compilation,  but  now  asking for  another  dump
+            that  of  the pass  "cfg".  View  this  pass  and say  whether  this
+            representation makes it easier to  read and understand GIMPLEs. Draw
+            the control-flow graph  of the program A-2.c on a  piece of paper by
+            looking at the CFG dump.
+Answer-  The control-flow  graph dump shows  distinct basic blocks  which are
+            named sequentially starting from  1.
+f ()
+                {
+                  int c;
+                  int b;
+                  int a;
+                  int Z.0;
+                  int D.1715;
+
+                <bb 2>:
+                  a = Z;
+                  if (a <= 9)
+                    goto <bb 3>;
+                  else
+                    goto <bb 4>;
+
+                <bb 3>:
+                  b = 5;
+                  c = 17;
+                  goto <bb 6>;
+
+                <bb 4>:
+                  b = 6;
+                  c = 20;
+                  if (a == 0)
+                    goto <bb 5>;
+                  else
+                    goto <bb 6>;
+
+                <bb 5>:
+                  c = 0;
+
+                <bb 6>:
+                  D.1715 = b * 10;
+                  Z.0 = D.1715 + c;
+                  Z = Z.0;
+                  return;
+
+                }
+
+
+            Compilation : gcc-4.7.2 -c -fdump-tree-cfg A-2.c
+            View result : vi -O A-2.c A-2.c.*.cfg
+            
+***Note***  From here  onwards we will only  look at passes from  "cfg" onwards,
+            each of which uses a CFG-based representation using basic blocks.
+            
+            
+Additional Problem
+------------------
+
+        Try to figure  out how GCC handles the  ternary operator [a ? b  : c] in
+        GIMPLE.
+---------------------------------------------------
+  Compile the following program (file A-2.c) and observe the GIMPLE dumps.
+
+        Source file : A-2.c
+        Compilation : gcc-4.7.2 -c -fdump-tree-gimple A-2.c
+        View result : vi -O A-2.c A-2.c.*.gimple
+        Clear dumps : rm -f A-2.c.* A-2.o
+
+Program
+-------
+
+        int Z;
+
+        void f()
+        {
+	        int a, b, c;
+	        a = Z;
+	        if (a < 10) {
+		        b = 5;
+		        c = 17;
+	        } else {
+		        b = 6;
+		        c = 20;
+		        if (a == 0) {
+			        c = 0;
+		        }
+	        }
+	        Z = b * 10 + c;
+        }
+	
+
