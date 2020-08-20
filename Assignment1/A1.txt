@@ -9,9 +9,12 @@ Questions
             happens to multiple  variables declared and initialized  on the same
             line? What happens to global declaration [int Z]?
 Answer- The gimple file tells us how the program is executed by the compiler.
-The declarations in the program where multiple variables are declared in the same line- in gimple file all variables are declared and initialised on different lines
-In the program we can declare and initialize the variables in the same line. In the gimple file all the variables used in the program are declared first then initialised with values separately.
-There is no  declaration for global  variables; they are used directly.
+       The declarations in the program where multiple variables are declared in the same line- 
+       in gimple file all variables are declared and initialised on different lines.
+       In the program we can declare and initialize the variables in the same line. 
+       In the gimple file all the variables used in the program are declared first then 
+       initialised with values separately.There is no  declaration for global  variables; 
+       they are used directly.
             
 
         2   How are complex  expressions such as [c  = a * b +  25] broken down?
@@ -20,29 +23,44 @@ There is no  declaration for global  variables; they are used directly.
 Answer- c  = a * b +  25 is broken down as-
         _1 = a * b;
         c = _1 + 25, here a temporary variable(_1) is generated. 
-The complex expressions involving 2 or more mathematical operations are broken into simple expressions having 1 operation to perform.                                                                                    
-The temporary variables will be generated when the expressions have more than 2 operations to be performed simulteneuosly.
-Any expression containing  more than  one  operation is  broken  up by  introducing temporaries. 
+        The complex expressions involving 2 or more mathematical operations are 
+	broken into simple expressions having 1 operation to perform.                                                                                    
+        The temporary variables will be generated when the expressions have more 
+        than 2 operations to be performed simulteneuosly.Any expression containing  more than 
+        one  operation is  broken  up by  introducing temporary variables. 
                   
       3   How are  floats/doubles represented in  GIMPLE? What happens  when a
             float/double is assigned to an integer in [Z = r]?
 Answer- Floats/doubles are represented as Scientific notation in  GIMPLE. 
-example- r = 34.5; represented as r = 3.45e+1;
-Here 3.45 is the number(say c) which should lie between 0.5<= c <= 5 and 1 represents order of the number
-r = 3.45e+1 = 3.45 * 10^1 = 34.5
-When a float/double is assigned to an integer, a temporary variable is generated which stores the integral value of double variable and it assigns this value to integer variable in the next step.
-The previous value of z is stored in the z variable itself and new value is assigned to new variable z_0.3
-example- in [Z = r]
-_2 = (int) r;
-Z = _2;                                                                                                         
-Z.0_3 = Z;
+        example- r = 34.5; represented as r = 3.45e+1;
+        Here 3.45 is the number(say c) which should lie between 0.5<= c <= 5 and 
+	1 represents order of the number
+        r = 3.45e+1 = 3.45 * 10^1 = 34.5
+       When a float/double is assigned to an integer, a temporary variable is generated
+       which stores the integral value of double variable and it assigns this value to integer 
+       variable in the next step.The previous value of z is stored in the z variable itself and
+       new value is assigned to new variable z_0.3
+       example- in [Z = r]
+      _2 = (int) r;
+      Z = _2;                                                                                                         
+      Z.0_3 = Z;
                                                                                                      
         4   How  are reads/writes  to the  global variable  Z performed?  Why is
             there a temporary introduced  for the statement [Z = Z  + 1] but not
             for the statements [q = Z] or [Z = p]?
 Answer- Reading/writing  from/to global  variables  requires  a memory  load  or  store operation. 
-It is done using temporary variables to perform on operation at a time.
-           
+        It is done using temporary variables to perform on operation at a time.
+        As  GIMPLE  statements can  have  at most  one
+        operation, the only type of  statements involving globals are of the
+        form "GLOBAL  = LOCAL" or  "LOCAL =  GLOBAL". This is  because while
+        local variables  of a  procedure can  reside entirely  in registers,
+        every read/write  to global variables  must refer to main  memory as
+        they can be accessed by  other entities (threads, I/O devices, etc).
+        Hence,  any operation  on global  variables (such  as the  increment
+        shown  in this  example)  has  to go  through  an  indirection of  a
+        temporary version of the global  inside registers (as this temporary
+        value is  not visible to  I/O devices, etc). Global  temporaries are
+        named similar to the global variable but with a numeric suffix.
             
 Optional Problem
 ----------------
