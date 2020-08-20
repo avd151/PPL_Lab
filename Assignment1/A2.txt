@@ -9,7 +9,7 @@ Questions
         1   How have if-blocks  been translated into GIMPLE  statements? Can you
             differentiate between conditional and unconditional gotos?
 Answer-  If-blocks are broken down  into distinct sections of code with 
-            labels  (named similar  to  temporary  variables). Control  transfer 
+          labels  (named similar  to  temporary  variables). Control  transfer 
          occurs with unconditional jumps (no conditions) (e.g. "goto X") or conditional jumps
          (having conditions- if else)(e.g. "if Z then goto X else goto Y").
 
