@@ -1,0 +1,4 @@
+PROBLEM STATEMENT
+
+Write a program to implement various types of geometrical shapes like circle, triangle, square, polygon, and octagon. 
+Circle, triangle, square, polygon, octagon are child classes of base class shape; Square is a polygon, octagon is a polygon.
