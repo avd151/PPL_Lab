@@ -1,3 +1,17 @@
+
+PROBLEM STATEMENT
+
+Use gdb to read assembly code for C program to find factorial of a number with recursion and demonstrate how parameters are passed using pass by value.
+
+This Assignment is Combined with Assignment 4
+
+
+Assignment 4 : 
+
+PROBLEM STATEMENT
+
+Explain how pass by reference works, using assembly code generated using g++ -S on a C++ program.
+
 PPL ASSIGNMENT 4
 Disassembling Programs with gdb
 Create programs in c language for the following:
