@@ -1,0 +1,6 @@
+
+PROBLEM STATEMENT
+
+1. Write a function in LISP to find nth element from a list of m elements.
+
+2. Write a program in LISP to define a function to find factorial of a number (with and without recursion).
